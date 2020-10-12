@@ -1,0 +1,114 @@
+:root {
+  --playerPrimaryColor: #bb1155;
+  --playerBackgroundColor: white;
+  --playerRangeBackgroundColor: hsla(336, 83%, 40%, 0.4);
+}
+
+.podcast-player {
+  padding: 20px;
+  background: var(--playerBackgroundColor);
+  border-radius: 8px;
+}
+
+.podcast-player__essentials {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (min-width: 500px) {
+    flex-direction: row;
+  }
+}
+
+.podcast-player__play-pause-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.podcast-player__play-pause {
+  width: 52px;
+  height: 52px;
+}
+
+.podcast-player__controls {
+  width: 180px;
+  display: flex;
+  justify-content: space-around;
+
+  @media (max-width: 500px) {
+    margin: 20px 0;
+  }
+}
+
+.podcast-player__time {
+  width: 72px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  font-feature-settings: tnum;
+  font-variant-numeric: tabular-nums;
+}
+
+.podcast-player__control {
+  color: var(--playerPrimaryColor);
+}
+
+.podcast-player__button {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  border: 3px solid var(--playerPrimaryColor);
+  border-radius: 8px;
+
+  background: transparent;
+  line-height: 1;
+  color: var(--playerPrimaryColor);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+
+  &[disabled] {
+    opacity: 0.4;
+  }
+}
+
+.podcast-player__speed {
+  position: relative;
+  width: 55px;
+  height: 30px;
+  overflow: hidden;
+  border: 3px solid var(--playerPrimaryColor);
+  border-radius: 8px;
+
+  select {
+    padding: 0px 5px 5px 5px;
+    width: 68px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: var(--playerPrimaryColor);
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+.podcast-player--dark {
+  // Flip the colors for the dark player variant
+  --playerPrimaryColor: white;
+  --playerBackgroundColor: #bb1155;
+  --playerRangeBackgroundColor: hsla(0, 0%, 100%, 0.4);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap; /* added line */
+}

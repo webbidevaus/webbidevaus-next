@@ -1,0 +1,110 @@
+@mixin thumb {
+  height: 28px;
+  width: 10px;
+  border-radius: 2px;
+  background: var(--playerPrimaryColor);
+  cursor: pointer;
+}
+
+@mixin track {
+  width: 100%;
+  background: var(--playerRangeBackgroundColor);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+@mixin disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.podcast-player__range {
+  margin-top: 20px;
+  width: 100%;
+
+  -webkit-appearance: none;
+  background: transparent;
+
+  /* Remove native styles */
+  &:focus {
+    outline: none;
+  }
+
+  /* Thumb styles */
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -8px;
+    margin-bottom: -8px;
+    @include thumb;
+  }
+
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+
+  &::-ms-thumb {
+    @include thumb;
+  }
+
+  /* Track styles */
+
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+
+  &::-moz-range-track {
+    border-radius: 0;
+    @include track;
+  }
+
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    @include track;
+  }
+
+  &::-ms-fill-upper {
+    @include track;
+  }
+
+  /* Disabled styles */
+  &:disabled {
+    &::-webkit-slider-thumb {
+      visibility: hidden;
+      @include disabled;
+    }
+    &::-moz-range-thumb {
+      visibility: hidden;
+      @include disabled;
+    }
+    &::-ms-thumb {
+      visibility: hidden;
+      @include disabled;
+    }
+    &::-webkit-slider-runnable-track {
+      @include disabled;
+    }
+    &::-moz-range-track {
+      @include disabled;
+    }
+    &::-ms-track {
+      @include disabled;
+    }
+    &::-ms-fill-lower {
+      @include disabled;
+    }
+    &::-ms-fill-upper {
+      @include disabled;
+    }
+  }
+}

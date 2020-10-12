@@ -1,0 +1,19 @@
+.select {
+  position: relative;
+  width: 55px;
+  height: 30px;
+  overflow: hidden;
+  border: 3px solid #bb1155;
+  border-radius: 8px;
+
+  select {
+    padding: 0px 5px 5px 5px;
+    width: 68px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: #bb1155;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

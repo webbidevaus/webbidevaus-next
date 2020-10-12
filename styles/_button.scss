@@ -1,0 +1,20 @@
+@import "colors";
+
+.button {
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  border: 0;
+  border-radius: 8px;
+
+  box-shadow: 0px 4px 4px rgba(55, 56, 104, 0.2);
+  background: linear-gradient($blue-gradient-start, $blue-gradient-end);
+
+  line-height: 1;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}

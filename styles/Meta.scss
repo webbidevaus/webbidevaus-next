@@ -1,0 +1,34 @@
+.meta {
+  display: flex;
+  position: relative;
+  left: -4px;
+}
+
+.meta__section {
+  display: flex;
+  align-items: center;
+  margin: 0 40px 20px 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+}
+
+.meta__section-short {
+  margin: 0 20px 10px 0;
+}
+
+.meta__section-icon {
+  width: 24px;
+  margin-right: 10px;
+  opacity: 0.5;
+}
+
+.meta__section-title {
+  color: #373868;
+  opacity: 0.5;
+}
+
+.meta__section-title--light {
+  color: white;
+}

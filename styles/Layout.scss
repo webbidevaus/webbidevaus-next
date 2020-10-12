@@ -1,0 +1,83 @@
+@import 'colors';
+
+* {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat, sans-serif;
+  color: $black;
+}
+*:before {
+  box-sizing: inherit;
+}
+*:after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  background: rgba(55, 56, 104, 0.12);
+  overflow-y: hidden;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+html {
+  box-sizing: border-box;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Montserrat, sans-serif;
+}
+ul,
+ol {
+  list-style-type: none;
+  line-height: 150%;
+}
+a {
+  color: $pink;
+}
+p {
+  line-height: 150%;
+}
+
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.padded {
+  padding: 1rem;
+
+  @media (min-width: 600px) {
+    padding: 3rem;
+  }
+}
+
+.small-title {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.audio-player {
+  width: 100%;
+}

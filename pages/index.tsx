@@ -5,35 +5,48 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Meta } from "../components/Meta";
 import { Player } from "../components/Player";
+import { GetStaticProps } from "next";
+
+interface Episode {
+  id: string;
+  number: number;
+  title: string;
+  publishedAt: Date;
+  duration: number;
+  description: string;
+  audioFile: string;
+}
 
 function episodeTitleWithoutNumber(title: string) {
   return title.replace(/^\d*. /, "");
 }
 
-const latestEpisode = {
-  id: 1,
-  number: 1,
-  title: "Episode title",
-  publishedAt: new Date(),
-  duration: 60 * 60 * 1.5,
-  description: "This is the description",
-  audioFile: {
-    url:
-      "https://cdn.simplecast.com/audio/c323bddb-1521-4c01-9f09-f3b876b9877e/episodes/e495b407-92fb-4ce4-940e-76b859bcba2d/audio/b275149f-3c6f-477e-aaa4-7b09f26ae668/default_tc.mp3",
-  },
-};
+// const latestEpisode = {
+//   id: 1,
+//   number: 1,
+//   title: "Episode title",
+//   publishedAt: new Date(),
+//   duration: 60 * 60 * 1.5,
+//   description: "This is the description",
+//   audioFile: {
+//     url:
+//       "https://cdn.simplecast.com/audio/c323bddb-1521-4c01-9f09-f3b876b9877e/episodes/e495b407-92fb-4ce4-940e-76b859bcba2d/audio/b275149f-3c6f-477e-aaa4-7b09f26ae668/default_tc.mp3",
+//   },
+// };
 
-const otherEpisodes = [
-  { ...latestEpisode, id: 1 },
-  { ...latestEpisode, id: 2 },
-  { ...latestEpisode, id: 3 },
-];
+// const otherEpisodes = [
+//   { ...latestEpisode, id: 1 },
+//   { ...latestEpisode, id: 2 },
+//   { ...latestEpisode, id: 3 },
+// ];
 
-export default function Home() {
+export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
+  const latestEpisode = allEpisodes[0];
+
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>Webbidevaus.fi</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -67,7 +80,7 @@ export default function Home() {
                 </a>
 
                 <Meta
-                  publishedAt={latestEpisode.publishedAt}
+                  publishedAt={new Date(latestEpisode.publishedAt)}
                   duration={latestEpisode.duration}
                   isLight
                   isShort
@@ -83,7 +96,7 @@ export default function Home() {
                   </a>
                 </p>
 
-                <Player audioSrc={latestEpisode.audioFile.url} />
+                <Player audioSrc={latestEpisode.audioFile} />
               </div>
             </div>
           </div>
@@ -124,7 +137,7 @@ export default function Home() {
               <button className="filter-button">Blogipostaukset</button>
             </div> */}
           <ol className="old-episode-list">
-            {otherEpisodes.map(({ id, number, title, description }) => (
+            {allEpisodes.map(({ id, number, title, description }) => (
               <li key={id} className="old-episode">
                 <a href={`/${number}`}>
                   <header className="old-episode__header small-title">
@@ -159,3 +172,22 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const episodeListingUrl = `https://api.simplecast.com/podcasts/${process.env.SIMPLECAST_PODCAST_ID}/episodes?limit=999`;
+  const result = await fetch(episodeListingUrl).then((r) => r.json());
+
+  return {
+    props: {
+      allEpisodes: result.collection.map((epi: any) => ({
+        id: epi.id,
+        title: epi.title,
+        number: epi.number,
+        description: epi.description,
+        audioFile: epi.enclosure_url,
+        publishedAt: epi.published_at,
+        duration: epi.duration,
+      })),
+    },
+  };
+};

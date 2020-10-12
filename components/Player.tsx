@@ -17,15 +17,21 @@ const formatTime = (totalSeconds: number) => {
 };
 
 function getPlayerConfig() {
-  const storedConfig =
-    typeof window !== "undefined"
-      ? JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "")
-      : null;
-  return (
-    storedConfig || {
+  if (typeof window === "undefined") {
+    return {
       episodePositions: {},
-    }
-  );
+    };
+  }
+
+  const conf = window.localStorage.getItem(STORAGE_KEY);
+  if (conf) {
+    const storedConfig = JSON.parse(conf);
+    return storedConfig;
+  }
+
+  return {
+    episodePositions: {},
+  };
 }
 
 function storePlayerConfig(config: Object) {

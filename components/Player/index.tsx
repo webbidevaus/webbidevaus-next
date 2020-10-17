@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
-import SeekBar from "./SeekBar";
+import SeekBar from "../SeekBar";
+import { useHash } from "./useHash";
 
 type Animate = SVGAnimateElement & { beginElement: () => void };
 type Direction = "FAST_FORWARD" | "REWIND";
@@ -16,7 +17,11 @@ const formatTime = (totalSeconds: number) => {
   return `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
 };
 
-function getPlayerConfig() {
+type Config = {
+  episodePositions: { [episodeMP3URL: string]: number };
+};
+
+function getPlayerConfig(): Config {
   if (typeof window === "undefined") {
     return {
       episodePositions: {},
@@ -38,8 +43,23 @@ function storePlayerConfig(config: Object) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 }
 
-function getStoredPlayPosition(audioSrc: string) {
-  return getPlayerConfig().episodePositions[audioSrc];
+function getStoredPlayPosition(
+  locationHash: string,
+  audioSrc: string
+): number | undefined {
+  return (
+    getCurrentTimeFromHash(locationHash) ||
+    getPlayerConfig().episodePositions[audioSrc]
+  );
+}
+
+function getCurrentTimeFromHash(hash: string) {
+  const matches = (hash || "").match(/t=(\d+)/);
+  if (!matches) {
+    return null;
+  }
+  const currentTimeInHash = parseInt(matches[1], 10);
+  return currentTimeInHash;
 }
 
 export function Player({
@@ -49,11 +69,12 @@ export function Player({
   audioSrc: string;
   isDark?: boolean;
 }) {
+  const [hash, setHash] = useHash();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentSpeed, setCurrentSpeed] = useState(1);
   const [currentTime, setCurrentTime] = useState(
-    getStoredPlayPosition(audioSrc) || 0
+    getStoredPlayPosition(hash, audioSrc) || 0
   );
   const audioRef = useRef<HTMLAudioElement>(null);
   const fromPlayToPauseAnimationTriangleRef = useRef<Animate>(null);
@@ -75,6 +96,13 @@ export function Player({
     }
   };
 
+  useEffect(() => {
+    const currentTimeInHash = getCurrentTimeFromHash(hash);
+    if (currentTimeInHash !== null) {
+      setCurrentTime(currentTimeInHash);
+    }
+  }, [hash]);
+
   // Persist current play position when currentTime changes
   useEffect(() => {
     const config = getPlayerConfig();
@@ -84,7 +112,7 @@ export function Player({
 
   // Force player's play position if there's a stored position
   useEffect(() => {
-    const storedPosition = getStoredPlayPosition(audioSrc);
+    const storedPosition = getStoredPlayPosition(hash, audioSrc);
     if (storedPosition) {
       audioRef.current!.currentTime = storedPosition;
     }

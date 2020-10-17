@@ -39,8 +39,8 @@ const formatTime = (durationInSeconds: number) => {
 interface MetaProps {
   publishedAt: Date;
   duration: number;
-  isShort: boolean;
-  isLight: boolean;
+  isShort?: boolean;
+  isLight?: boolean;
 }
 
 export function Meta({

@@ -98,7 +98,9 @@ export function Player({
 
   useEffect(() => {
     const currentTimeInHash = getCurrentTimeFromHash(hash);
+
     if (currentTimeInHash !== null) {
+      audioRef.current!.currentTime = currentTimeInHash;
       setCurrentTime(currentTimeInHash);
     }
   }, [hash]);

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import Head from "next/head";
+import Link from "next/link";
 import Markdown from "react-markdown";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
@@ -20,25 +21,6 @@ interface Episode {
 function episodeTitleWithoutNumber(title: string) {
   return title.replace(/^\d*. /, "");
 }
-
-// const latestEpisode = {
-//   id: 1,
-//   number: 1,
-//   title: "Episode title",
-//   publishedAt: new Date(),
-//   duration: 60 * 60 * 1.5,
-//   description: "This is the description",
-//   audioFile: {
-//     url:
-//       "https://cdn.simplecast.com/audio/c323bddb-1521-4c01-9f09-f3b876b9877e/episodes/e495b407-92fb-4ce4-940e-76b859bcba2d/audio/b275149f-3c6f-477e-aaa4-7b09f26ae668/default_tc.mp3",
-//   },
-// };
-
-// const otherEpisodes = [
-//   { ...latestEpisode, id: 1 },
-//   { ...latestEpisode, id: 2 },
-//   { ...latestEpisode, id: 3 },
-// ];
 
 export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
   const latestEpisode = allEpisodes[0];
@@ -139,29 +121,31 @@ export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
           <ol className="old-episode-list">
             {allEpisodes.map(({ id, number, title, description }) => (
               <li key={id} className="old-episode">
-                <a href={`/${number}`}>
-                  <header className="old-episode__header small-title">
-                    Podcast-jakso
-                  </header>
-                  <section className="old-episode__content">
-                    <h3 className="old-episode__number">{number}</h3>
-                    <div>
-                      <h3 className="old-episode__title">
-                        {episodeTitleWithoutNumber(title)}
-                      </h3>
-                      <Markdown
-                        source={description}
-                        linkTarget="_blank"
-                        renderers={{
-                          /*
-                           * Only render link texts, as the episode box is already an anchor
-                           */
-                          link: (props) => props.children,
-                        }}
-                      />
-                    </div>
-                  </section>
-                </a>
+                <Link href={`/${number}`}>
+                  <a>
+                    <header className="old-episode__header small-title">
+                      Podcast-jakso
+                    </header>
+                    <section className="old-episode__content">
+                      <h3 className="old-episode__number">{number}</h3>
+                      <div>
+                        <h3 className="old-episode__title">
+                          {episodeTitleWithoutNumber(title)}
+                        </h3>
+                        <Markdown
+                          source={description}
+                          linkTarget="_blank"
+                          renderers={{
+                            /*
+                             * Only render link texts, as the episode box is already an anchor
+                             */
+                            link: (props) => props.children,
+                          }}
+                        />
+                      </div>
+                    </section>
+                  </a>
+                </Link>
               </li>
             ))}
           </ol>

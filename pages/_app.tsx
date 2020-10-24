@@ -16,6 +16,12 @@ function WebbidevausApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,900&display=swap"
           rel="stylesheet"
         />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Webbidevaus.fi RSS"
+          href="https://feeds.simplecast.com/wFD5mVlw"
+        />
       </Head>
       <Component {...pageProps} />
     </>

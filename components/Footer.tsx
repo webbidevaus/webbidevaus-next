@@ -1,10 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 
-// import itunes from '../images/itunes.svg'
-// import overcast from '../images/overcast.svg'
-// import pocketcasts from '../images/pocketcasts.svg'
-
 export function Footer({ isSingle = false }) {
   return (
     <footer
@@ -48,14 +44,14 @@ export function Footer({ isSingle = false }) {
       </ul>
 
       <h1 className="subscribe small-title">Tilaa Webbidevaus.fi -podcast!</h1>
-      {/* <div className="subscribe-buttons">
+      <div className="subscribe-buttons">
         <a
           className="subscribe-button"
           href="https://itunes.apple.com/fi/podcast/webbidevaus-fi/id1350226932"
         >
           <img
             className="subscribe-button__image"
-            src={itunes}
+            src="/itunes.svg"
             alt="Webbidevaus iTunesissa"
           />
         </a>
@@ -65,7 +61,7 @@ export function Footer({ isSingle = false }) {
         >
           <img
             className="subscribe-button__image"
-            src={overcast}
+            src="overcast.svg"
             alt="Webbidevaus Overcastissa"
           />
         </a>
@@ -75,11 +71,11 @@ export function Footer({ isSingle = false }) {
         >
           <img
             className="subscribe-button__image"
-            src={pocketcasts}
+            src="pocketcasts.svg"
             alt="Webbidevaus Pocket Castsissa"
           />
         </a>
-      </div> */}
+      </div>
     </footer>
   );
 }

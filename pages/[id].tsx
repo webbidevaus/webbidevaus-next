@@ -51,30 +51,14 @@ export default function Episode(episode: Episode) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const { loadEpisode } = require("../util/episodes");
   const path = require("path");
-  const { readFile } = require("fs").promises;
 
   const filePath = path.join("./", "episodes.json.tmp");
-  const cachedFile = await readFile(filePath);
-  const episodes = JSON.parse(cachedFile.toString())
-    .collection as ListingEpisode[];
-
-  const id = parseInt(context.params?.id as string, 10); // webbidevaus.fi/96 -> id = 96
-  const listingEpisode = episodes.find((e: ListingEpisode) => e.number === id);
-  if (!listingEpisode) {
-    return { props: {} };
-  }
-
-  const requestOpts = {
-    headers: {
-      Authorization: `Basic ${process.env.SIMPLECAST_API_KEY}`,
-    },
-  };
-  const episodeUrl = `https://api.simplecast.com/episodes/${listingEpisode.id}`;
-  const episode = await fetch(episodeUrl, requestOpts).then((r) => r.json());
+  const epi = await loadEpisode(filePath, context.params?.id);
 
   return {
-    props: episode,
+    props: epi.orDefault({}),
   };
 };
 

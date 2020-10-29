@@ -52,7 +52,7 @@ export function Footer({ isSingle = false }) {
           <img
             className="subscribe-button__image"
             src="/itunes.svg"
-            alt="Webbidevaus iTunesissa"
+            alt="Webbidevaus Apple Podcastsissa"
           />
         </a>
         <a

@@ -50,10 +50,9 @@ export async function loadEpisode(filePath: string, id?: string) {
   const listingEpisode = (await loadEpisodes(filePath)).chain(
     findEpisode(episodeId)
   );
+
   // Fetch the full episode information based on the Simplecast episode ID from `listingEpisode`
-  const fullEpisode = await EitherAsync(async ({ liftEither }) =>
-    liftEither(listingEpisode)
-  )
+  const fullEpisode = await EitherAsync.liftEither(listingEpisode)
     .map(createEpisodeUrl)
     .chain(authFetch)
     .chain((val) => EitherAsync.liftEither(Episode.decode(val)));

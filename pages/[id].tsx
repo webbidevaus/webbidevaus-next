@@ -10,7 +10,7 @@ import { Layout } from "../components/Layout";
 import path from "path";
 import fs from "fs";
 import { Maybe } from "purify-ts/Maybe";
-import { getEpisodes, loadEpisode } from "../util/episodes";
+import { getEpisodes, getEpisode } from "../util/episodes";
 
 function episodeTitleWithoutNumber(title?: string) {
   return Maybe.fromNullable(title)
@@ -60,7 +60,7 @@ const FILE_NAME = "episodes.json.tmp";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const filePath = path.join("./", FILE_NAME);
-  const epi = await loadEpisode(filePath, context.params?.id as string);
+  const epi = await getEpisode(filePath, context.params?.id as string);
 
   return {
     props: epi.caseOf({

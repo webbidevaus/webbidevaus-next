@@ -2,7 +2,6 @@ import {
   Codec,
   string,
   number,
-  date,
   boolean,
   nullType,
   array,
@@ -16,7 +15,7 @@ export const Season = Codec.interface({
 });
 
 export const ListingEpisode = Codec.interface({
-  updated_at: date,
+  updated_at: string,
   type: string,
   token: string,
   title: string,
@@ -24,7 +23,7 @@ export const ListingEpisode = Codec.interface({
   slug: string,
   season: Season,
   scheduled_for: nullType,
-  published_at: date,
+  published_at: string,
   number: number,
   is_hidden: boolean,
   image_url: oneOf([string, nullType]),

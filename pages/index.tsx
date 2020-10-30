@@ -7,22 +7,18 @@ import { Footer } from "../components/Footer";
 import { Meta } from "../components/Meta";
 import { Player } from "../components/Player";
 import { GetStaticProps } from "next";
-
-interface Episode {
-  id: string;
-  number: number;
-  title: string;
-  publishedAt: Date;
-  duration: number;
-  description: string;
-  audioFile: string;
-}
+import { getEpisodes } from "../util/episodes";
+import { ListingEpisode } from "../types/Episode";
 
 function episodeTitleWithoutNumber(title: string) {
   return title.replace(/^\d*. /, "");
 }
 
-export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
+interface IHome {
+  allEpisodes: ListingEpisode[];
+}
+
+export default function Home({ allEpisodes }: IHome) {
   const latestEpisode = allEpisodes[0];
 
   return (
@@ -62,7 +58,7 @@ export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
                 </a>
 
                 <Meta
-                  publishedAt={new Date(latestEpisode.publishedAt)}
+                  publishedAt={new Date(latestEpisode.published_at)}
                   duration={latestEpisode.duration}
                   isLight
                   isShort
@@ -78,7 +74,7 @@ export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
                   </a>
                 </p>
 
-                <Player audioSrc={latestEpisode.audioFile} />
+                <Player audioSrc={latestEpisode.enclosure_url} />
               </div>
             </div>
           </div>
@@ -157,21 +153,12 @@ export default function Home({ allEpisodes }: { allEpisodes: Episode[] }) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const episodeListingUrl = `https://api.simplecast.com/podcasts/${process.env.SIMPLECAST_PODCAST_ID}/episodes?limit=999`;
-  const result = await fetch(episodeListingUrl).then((r) => r.json());
+export const getStaticProps: GetStaticProps = async () => {
+  const episodes = await getEpisodes(process.env.SIMPLECAST_PODCAST_ID);
 
   return {
     props: {
-      allEpisodes: result.collection.map((epi: any) => ({
-        id: epi.id,
-        title: epi.title,
-        number: epi.number,
-        description: epi.description,
-        audioFile: epi.enclosure_url,
-        publishedAt: epi.published_at,
-        duration: epi.duration,
-      })),
+      allEpisodes: episodes.collection,
     },
   };
 };

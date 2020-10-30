@@ -60,6 +60,9 @@ export async function loadEpisode(filePath: string, id?: string) {
   return fullEpisode.toMaybe();
 }
 
+/**
+ * Fetch the list of all episodes from Simplecast, returning a `ListingEpisodes`
+ */
 export async function getEpisodes(podcastId?: string) {
   const episodeListingUrl = `https://api.simplecast.com/podcasts/${podcastId}/episodes?limit=999`;
 

@@ -7,9 +7,15 @@ import { Player } from "../components/Player";
 import { Footer } from "../components/Footer";
 import { Meta } from "../components/Meta";
 import { Layout } from "../components/Layout";
+import path from "path";
+import fs from "fs";
+import { Maybe } from "purify-ts/Maybe";
+import { getEpisodes, loadEpisode } from "../util/episodes";
 
-function episodeTitleWithoutNumber(title: string) {
-  return title.replace(/^\d*. /, "");
+function episodeTitleWithoutNumber(title?: string) {
+  return Maybe.fromNullable(title)
+    .map((t) => t.replace(/^\d*. /, ""))
+    .orDefault("");
 }
 
 export default function Episode(episode: Episode) {
@@ -50,30 +56,29 @@ export default function Episode(episode: Episode) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { loadEpisode } = require("../util/episodes");
-  const path = require("path");
+const FILE_NAME = "episodes.json.tmp";
 
-  const filePath = path.join("./", "episodes.json.tmp");
-  const epi = await loadEpisode(filePath, context.params?.id);
+export const getStaticProps: GetStaticProps = async (context) => {
+  const filePath = path.join("./", FILE_NAME);
+  const epi = await loadEpisode(filePath, context.params?.id as string);
 
   return {
-    props: epi.orDefault({}),
+    props: epi.caseOf({
+      Just: (e) => e,
+      Nothing: () => ({}),
+    }),
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the master episode list from Simplecast, return numeric episode IDs
-  const path = require("path");
-  const { writeFile } = require("fs").promises;
+  const episodes = await getEpisodes(process.env.SIMPLECAST_PODCAST_ID);
 
-  const episodeListingUrl = `https://api.simplecast.com/podcasts/${process.env.SIMPLECAST_PODCAST_ID}/episodes?limit=999`;
-  const result = await fetch(episodeListingUrl).then((r) => r.json());
-  const filePath = path.join("./", "episodes.json.tmp");
-  await writeFile(filePath, JSON.stringify(result, null, 2));
+  const filePath = path.join("./", FILE_NAME);
+  await fs.promises.writeFile(filePath, JSON.stringify(episodes, null, 2));
 
   return {
-    paths: result.collection.map((epi: ListingEpisode) => ({
+    paths: episodes.collection.map((epi) => ({
       params: {
         id: epi.number + "",
       },

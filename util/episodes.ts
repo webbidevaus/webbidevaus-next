@@ -44,7 +44,7 @@ const createEpisodeUrl = (e: ListingEpisode) =>
  * episode props for the given episode number. Returns { props: {} }
  * if not found.
  */
-export async function loadEpisode(filePath: string, id?: string) {
+export async function getEpisode(filePath: string, id?: string) {
   const episodeId = parseId(id);
   // Read the listing episode from the JSON on disk
   const listingEpisode = (await loadEpisodes(filePath)).chain(

@@ -11,6 +11,7 @@ import path from "path";
 import fs from "fs";
 import { Maybe } from "purify-ts/Maybe";
 import { getEpisodes, getEpisode } from "../util/episodes";
+import { useHit } from "../util/analytics";
 
 function episodeTitleWithoutNumber(title?: string) {
   return Maybe.fromNullable(title)
@@ -19,6 +20,7 @@ function episodeTitleWithoutNumber(title?: string) {
 }
 
 export default function Episode(episode: Episode) {
+  useHit();
   return (
     <Layout episode={episode}>
       <div className="hero hero--single">

@@ -11,7 +11,6 @@ import path from "path";
 import fs from "fs";
 import { Maybe } from "purify-ts/Maybe";
 import { getEpisodes, getEpisode } from "../util/episodes";
-import Head from "next/head";
 import { useHit } from "../util/analytics";
 
 function episodeTitleWithoutNumber(title?: string) {
@@ -24,9 +23,6 @@ export default function Episode(episode: Episode) {
   useHit();
   return (
     <Layout episode={episode}>
-      <Head>
-        <title>{episode.title} – Webbidevaus.fi</title>
-      </Head>
       <div className="hero hero--single">
         <Header className={classNames("hero__header", "wrap")} />
       </div>

@@ -3,12 +3,14 @@ import qs, { ParsedQs } from "qs";
 import { useEffect } from "react";
 require("firebase/firestore");
 
-firebase.initializeApp({
-  apiKey: "AIzaSyDmsFQalvYtQ1JYjfA6a1Me5ZUEDOIa4jE",
-  authDomain: "webbidevaus-analytics.firebaseapp.com",
-  databaseURL: "https://webbidevaus-analytics.firebaseio.com",
-  projectId: "webbidevaus-analytics",
-});
+if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: "AIzaSyDmsFQalvYtQ1JYjfA6a1Me5ZUEDOIa4jE",
+    authDomain: "webbidevaus-analytics.firebaseapp.com",
+    databaseURL: "https://webbidevaus-analytics.firebaseio.com",
+    projectId: "webbidevaus-analytics",
+  });
+}
 
 const db = firebase.firestore();
 

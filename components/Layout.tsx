@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React from "react";
+import { episodeTitleWithoutNumber } from "../util/episodes";
 
 interface ILayout {
   children: React.ReactNode;
@@ -18,30 +19,9 @@ export const Layout = ({ children, episode }: ILayout) => {
   const url = episode
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/${episode.number}`
     : process.env.NEXT_PUBLIC_SITE_URL;
-  const coverUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/cover.jpg`;
-
-  const metaTags = [
-    { name: "title", content: title },
-    {
-      name: "keywords",
-      content:
-        "webbidevaus, web dev, podcast, react, node, typescript, javascript",
-    },
-    {
-      name: "description",
-      content: description,
-    },
-    { property: "og:title", content: title },
-    { property: "og:description", content: description },
-    { property: "og:url", content: url },
-    { property: "og:image", content: coverUrl },
-    { property: "og:type", content: "website" },
-    { property: "twitter:title", content: title },
-    { property: "twitter:description", content: description },
-    { property: "twitter:url", content: url },
-    { property: "twitter:image", content: coverUrl },
-    { property: "twitter:card", content: "summary_large_image" },
-  ];
+  const coverUrl = `https://og-webbidevaus.vercel.app/${encodeURIComponent(
+    `**Jakso ${episode.number}**: ${episodeTitleWithoutNumber(episode.title)}`
+  )}?theme=${episode.number % 2 === 0 ? "light" : "dark"}&md=1&fontSize=100px`;
 
   return (
     <>

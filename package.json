@@ -16,7 +16,7 @@
     "firebase": "^8.0.2",
     "next": "10.0.0",
     "next-on-netlify": "^2.6.0",
-    "purify-ts": "^0.16.0-beta.5",
+    "purify-ts": "^0.16.3",
     "qs": "^6.9.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",

@@ -1,3 +1,4 @@
+import fetch from "cross-fetch";
 import { EitherAsync } from "purify-ts/EitherAsync";
 
 const requestOpts = {

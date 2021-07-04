@@ -1,3 +1,5 @@
+import fetch from "cross-fetch";
+import { Right } from "purify-ts";
 import { EitherAsync } from "purify-ts/EitherAsync";
 
 const requestOpts = {
@@ -7,8 +9,8 @@ const requestOpts = {
 };
 
 export const authFetch = (url: string) => {
-  return EitherAsync.liftPromise(() => fetch(url, requestOpts)).map((e) =>
-    e.json()
+  return EitherAsync.fromPromise(() => fetch(url, requestOpts).then(Right)).map(
+    (e) => e.json()
   );
 };
 

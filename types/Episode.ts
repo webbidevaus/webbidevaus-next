@@ -6,7 +6,7 @@ import {
   nullType,
   array,
   oneOf,
-  GetInterface,
+  GetType,
 } from "purify-ts/Codec";
 
 export const Season = Codec.interface({
@@ -39,13 +39,13 @@ export const ListingEpisode = Codec.interface({
   analytics: nullType,
 });
 
-export type ListingEpisode = GetInterface<typeof ListingEpisode>;
+export type ListingEpisode = GetType<typeof ListingEpisode>;
 
 export const ListingEpisodes = Codec.interface({
   collection: array(ListingEpisode),
 });
 
-export type ListingEpisodes = GetInterface<typeof ListingEpisodes>;
+export type ListingEpisodes = GetType<typeof ListingEpisodes>;
 
 const AudioFile = Codec.interface({
   url: string,

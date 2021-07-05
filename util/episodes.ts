@@ -3,7 +3,7 @@ import { Left } from "purify-ts/Either";
 import { Maybe } from "purify-ts/Maybe";
 import { List } from "purify-ts/List";
 import path from "path";
-const fs = require("fs").promises;
+import { promises as fs } from "fs";
 import { ListingEpisodes, ListingEpisode, Episode } from "../types/Episode";
 import { authFetch, plainFetchAuth } from "../util/fetch";
 import { GetType } from "purify-ts";
@@ -75,4 +75,8 @@ export async function getEpisodes(podcastId?: string) {
       .map((e) => e.json())
       .chain((val) => EitherAsync.liftEither(ListingEpisodes.decode(val)))
   ).orDefault({ collection: [] });
+}
+
+export function episodeTitleWithoutNumber(title: string) {
+  return title.replace(/^\d*. /, "");
 }

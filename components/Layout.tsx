@@ -19,9 +19,13 @@ export const Layout = ({ children, episode }: ILayout) => {
   const url = episode
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/${episode.number}`
     : process.env.NEXT_PUBLIC_SITE_URL;
-  const coverUrl = `https://og-webbidevaus.vercel.app/${encodeURIComponent(
-    `**Jakso ${episode.number}**: ${episodeTitleWithoutNumber(episode.title)}`
-  )}?theme=${episode.number % 2 === 0 ? "light" : "dark"}&md=1&fontSize=100px`;
+  const coverUrl = `https://og-webbidevaus.vercel.app/${`**${encodeURIComponent(
+    `Jakso ${episode.number}`
+  )}**: ${encodeURIComponent(
+    episodeTitleWithoutNumber(episode.title)
+  )}`}?theme=${
+    episode.number % 2 === 0 ? "light" : "dark"
+  }&md=1&fontSize=100px`;
 
   return (
     <>
